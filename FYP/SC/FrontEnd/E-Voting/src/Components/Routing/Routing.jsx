@@ -29,6 +29,7 @@ const Routing = () => {
 <Route exact path='/vote' Component={VoteArea}/>
 <Route exact path='/setting' Component={Setting}/>
 <Route exact path='/verify-otp' Component={OTP}/>
+<Route exact path='/admin/admin-dashboard' Component={Admindashboard}/>
 <Route exact path='/admin/admin-register' Component={AdminRegister}/>
 <Route exact path='/admin/admin-login' Component={AdminLogin}/>
 <Route exact path='/add-Candidate' Component={AddCandidate}/>

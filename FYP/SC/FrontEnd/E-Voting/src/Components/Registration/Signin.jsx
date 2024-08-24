@@ -7,18 +7,19 @@ const signin = () => {
     const navigate=useNavigate();
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
+    const [error,setError]=useState(false);
     const handleSubmit = async (e) => {
         const userId=localStorage.getItem('userID');
         e.preventDefault();
         try {
           const response = await axios.post('http://localhost:3000/signin', { email, password });
+         
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('userId', response.data.userId); 
-      
 localStorage.setItem('Email', JSON.stringify(response.data.email));
-
           navigate(`/user-dashboard/${response.data.userId}`);
         } catch (error) {
+          setError("Invalid Email and Password");
           console.error('Error signing in:', error);
         }
       };
@@ -29,6 +30,7 @@ localStorage.setItem('Email', JSON.stringify(response.data.email));
         <h2 className="text-2xl font-bold mb-6 text-gray-900">Sign In</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
+          {error&&<p className='text-red-400'>{error}</p>}
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
             <input
               type="email"

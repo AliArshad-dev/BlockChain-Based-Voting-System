@@ -1,5 +1,5 @@
 // controllers/adminController.js
-const Admin = require('../Model/AdminModel'); // Ensure you are importing the correct model
+const Admin = require('../Model/AdminModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.Admin_SECRET || 'admin@321';
@@ -48,7 +48,8 @@ exports.getCount=async(req,res)=>{
   try {
     const totalCandidates = await CandidateModel.countDocuments();
     const totalVoters = await VoterModel.countDocuments();
-    const totalVotes = await CandidateModel.aggregate([{ $group: { _id: null, totalVotes: { $sum: '$votes' } } }]);
+    const totalVotes = await CandidateModel.aggregate([{ $group: { _id: "$_id", totalVotes: { $sum: '$votes' } } }]);
+    
     res.json({
       totalCandidates,
       totalVoters,

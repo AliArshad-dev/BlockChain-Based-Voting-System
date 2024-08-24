@@ -21,6 +21,9 @@ const Signup = () => {
       setError("Passwords do not match");
       return;
     }
+    if(!userName&&!email&&!password&&!confirmPassword){
+setError("All Fields are required");
+    }
     try {
       setError(''); 
       setIsButtonDisabled(true); 
@@ -55,6 +58,7 @@ const Signup = () => {
       {isCompleted && <h2 className="text-center text-green-500 text-lg mb-4">Successfully Account Created</h2>}
       <div className="flex items-center justify-center min-h-screen bg-gradient-custom p-4 sm:p-8">
         <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md">
+        {error && <p className="text-red-500 text-sm text-center font-extrabold">{error}</p>}
           <h2 className="text-2xl font-bold mb-6 text-gray-900 text-center">Sign Up</h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <div>
@@ -81,7 +85,6 @@ const Signup = () => {
                 value={email}
               />
             </div>
-            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
               <input

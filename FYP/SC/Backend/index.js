@@ -38,7 +38,7 @@ app.use(cors({
 }));
 app.use('/Images', express.static(path.join(__dirname, 'public/Images')));
 app.use(cookieParser());
-app.use('/admin',adminRouting)
+app.use('/admin',adminRouting);
 const generateOtp = () => crypto.randomInt(100000, 999999).toString();
 const sendOtp = async (email) => {
   const otp = generateOtp();
@@ -71,6 +71,10 @@ const sendOtp = async (email) => {
     throw new Error('Error sending OTP');
   }
 };
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'e-voting', 'dist')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'e-voting', 'dist', 'index.html'));
+});
 
 app.post('/verify-otp', async (req, res) => {
   const { otp } = req.body;
@@ -101,8 +105,8 @@ app.post('/signin', async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
     const payload = { userId: user._id };
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '100000000h' });
+    res.cookie('token', token, { httpOnly: true});
     res.json({ token, userId: user._id, email});
   } catch (err) {
     res.status(500).json({ message: err.message });
